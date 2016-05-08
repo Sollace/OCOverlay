@@ -1,0 +1,9 @@
+1                       ICON                    "ICON/icon0.ico"
+2                       ICON                    "ICON/dotPon.ico"
+3                       ICON                    "ICON/file0.ico"
+4                       ICON                    "ICON/file1.ico"
+5                       ICON                    "ICON/icon1.ico"
+6                       ICON                    "ICON/folder0.ico"
+7                       ICON                    "ICON/folder1.ico"
+
+1                       MANIFEST                "app.manifest"

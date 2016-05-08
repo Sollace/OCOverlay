@@ -1,0 +1,56 @@
+﻿<Window x:Class="OCOverlay.EditABlink"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oc="clr-namespace:OCOverlay"
+        Name="BlinkWindow" Title="Edit Blink" Height="350" MinWidth="430" Width="430"
+        Background="Transparent" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanResizeWithGrip"
+        AllowDrop="True" Activated="BlinkWindow_Activated" Closed="BlinkWindow_Closed">
+    <WindowChrome.WindowChrome>
+        <WindowChrome ContextMenuService.IsEnabled="False" CaptionHeight="{Binding ActualHeight,ElementName=title}" />
+    </WindowChrome.WindowChrome>
+    <Grid>
+        <Border Background="White"  BorderBrush="Black" BorderThickness="5" >
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,27,0,0">
+                <StackPanel>
+                    <Canvas Height="93">
+                        <Label Content="Name" Height="27" Width="54" Canvas.Left="10" Canvas.Top="10"/>
+                        <TextBox Name="nameTxt" Height="27" Canvas.Left="69" TextWrapping="Wrap" Text="{Binding Name}" Canvas.Top="10" Width="179"/>
+                        <Button x:Name="export" Content="Export this frame" HorizontalAlignment="Left" Width="141" Height="30" Click="export_Click" Template="{DynamicResource EditButtonTemplate}" Canvas.Left="10" Canvas.Top="42"/>
+                    </Canvas>
+                    <Expander Header="Timing" HorizontalAlignment="Stretch">
+                        <Grid Background="#FFE5E5E5">
+                            <Label Content="Rate" Height="27" Width="69" Canvas.Left="10" Canvas.Top="10" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Slider Name="delay_min" Value="{Binding MinDelay}" Height="30" Margin="84,53,47,45" Maximum="120" />
+                            <TextBox Name="r" Text="{Binding MinDelay}" Margin="0,52,10,0" HorizontalAlignment="Right" Width="32" Height="30" VerticalAlignment="Top"/>
+                            <Label Content="Min Delay" Height="27" Width="69" Canvas.Left="10" Canvas.Top="10" Margin="10,52,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Slider Name="delay_max" Value="{Binding MaxDelay}" Height="30" Margin="84,91,47,7" Maximum="120" />
+                            <TextBox Name="q" Text="{Binding MaxDelay}" Margin="0,88,10,0" HorizontalAlignment="Right" Width="32" Height="30" VerticalAlignment="Top"/>
+                            <Label Content="Max Delay" Height="27" Width="69" Canvas.Left="10" Canvas.Top="10" Margin="10,91,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Slider Name="rate" Value="{Binding Duration}" Height="30" Margin="84,14,47,84" />
+                            <TextBox Name="p" Text="{Binding Duration}" Margin="0,14,10,0" HorizontalAlignment="Right" Width="32" Height="30" VerticalAlignment="Top"/>
+                        </Grid>
+                    </Expander>
+                    <Expander Header="Frames" HorizontalAlignment="Stretch">
+                        <Grid Background="#FFE5E5E5">
+                            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                                <StackPanel Name="FramesList" Height="90" Orientation="Horizontal">
+                                    <Rectangle Width="90" Drop="Rectangle_Drop">
+                                        <Rectangle.Fill>
+                                            <ImageBrush ImageSource="Images/none.png"/>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        <Canvas Name="title" Height="34" VerticalAlignment="Top" Background="Black"/>
+        <Canvas Height="30" WindowChrome.IsHitTestVisibleInChrome="true" VerticalAlignment="Top" Margin="5,0">
+            <Label Name="title2" Foreground="White" Content="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Canvas.Left="0" Height="24" Width="232" Canvas.Top="6" />
+            <Button Name="close" Canvas.Right="0" Canvas.Top="0" Width="35" Height="30" Template="{DynamicResource ButtonTemplate}"/>
+            <Button Name="minimize" Height="30" Canvas.Right="35" Canvas.Top="0" Width="35" Background="White" Template="{DynamicResource ButtonTemplate}" />
+        </Canvas>
+    </Grid>
+</Window>

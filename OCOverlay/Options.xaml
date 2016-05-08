@@ -1,0 +1,70 @@
+﻿<Window x:Class="OCOverlay.Options"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Options" Height="369" Width="300"
+        Background="Transparent" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanMinimize" ContentRendered="Options_ContentRendered">
+    <Grid>
+        <Border Background="White"  BorderBrush="Black" BorderThickness="5">
+            <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,35,0,0">
+                    <StackPanel Margin="10,0,10,0">
+                        <Canvas Height="188">
+                            <CheckBox Name="top" IsChecked="{Binding Pinned}" Content="Always on top" Height="25" VerticalAlignment="Top" Canvas.Left="152" Canvas.Top="10" />
+                            <CheckBox Name="lok" IsChecked="{Binding IsLocked}" Content="Lock Position" Height="25" VerticalAlignment="Top" Canvas.Left="152" Canvas.Top="40" />
+                            <CheckBox Name="tran" IsChecked="{Binding TransOnHover}" Content="Hide on hover" Height="25" VerticalAlignment="Top" Canvas.Left="152" Canvas.Top="70" />
+                            <CheckBox Name="cov" IsChecked="{Binding Cover}" Content="Canvas Mode" Height="25" VerticalAlignment="Top" Canvas.Left="152" Canvas.Top="100" />
+                            <Button Content="Edit Blinks" Template="{DynamicResource EditButtonTemplate}" Width="130" HorizontalAlignment="Left" Click="Button_Click" Canvas.Left="10" Canvas.Top="10" />
+                            <Button Name="reset" Content="Reset" Template="{DynamicResource EditButtonTemplate}" Width="130" HorizontalAlignment="Left" Click="Reset_Click" Canvas.Left="10" Canvas.Top="47" Height="31" />
+
+                            <Label Content="Opacity" Canvas.Left="10" Canvas.Top="129" />
+                            <Slider Name="opa" Value="{Binding ImageOpacity}" Canvas.Left="10" Canvas.Top="155" Width="225" Maximum="100" Minimum="1">
+                                <Slider.ToolTip>
+                                    <ToolTip Content="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.Value}" ContentStringFormat="{}{0:0} %" />
+                                </Slider.ToolTip>
+                            </Slider>
+
+                        </Canvas>
+                        <Expander Header="Transformations">
+                            <Canvas Height="157">
+                                <CheckBox Name="x" IsChecked="{Binding FlipX}" Content="Flip X" HorizontalAlignment="Left" Width="73" Height="25" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" />
+                                <CheckBox Name="y" IsChecked="{Binding FlipY}" Content="Flip Y" HorizontalAlignment="Left" Width="82" Height="25" VerticalAlignment="Top" Canvas.Left="172" Canvas.Top="10" />
+                                <Label Content="Scale" Canvas.Left="10" Canvas.Top="40" />
+                                <Slider Name="scale" Value="{Binding Scale}" Canvas.Left="10" Canvas.Top="66" Width="225" Maximum="100" Minimum="-100" >
+                                    <Slider.ToolTip>
+                                        <ToolTip Content="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.Value}" ContentStringFormat="{}{0:0.0}%" />
+                                    </Slider.ToolTip>
+                                </Slider>
+
+                                <Label Content="Rotate" Canvas.Left="10" Canvas.Top="93" />
+                                <Slider Name="rot" Value="{Binding Rotate}" Canvas.Left="10" Canvas.Top="119" Width="225" Maximum="180" Minimum="-180">
+                                    <Slider.ToolTip>
+                                        <ToolTip Content="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.Value}" ContentStringFormat="{}{0:0.0}deg" />
+                                    </Slider.ToolTip>
+                                </Slider>
+
+                            </Canvas>
+                        </Expander>
+                        <Expander Header="Window Dimensions" >
+                            <Canvas Height="122">
+                                <Label Content="Width:" Canvas.Left="10" Canvas.Top="7" Width="65" />
+                                <TextBox Text="{Binding Width}" IsEnabled="False" Canvas.Left="80" Canvas.Top="7" Width="168" />
+                                <Label Content="Height:" Canvas.Left="9" Canvas.Top="35" Width="65" />
+                                <TextBox Text="{Binding Height}" IsEnabled="False" Canvas.Left="80" Canvas.Top="34" Width="168" />
+                                <Label Content="Position X:" Canvas.Top="61" Canvas.Left="9" />
+                                <TextBox Text="{Binding Left}" IsEnabled="False" Canvas.Left="80" Canvas.Top="61" Width="168" />
+                                <Label Content="Position Y:" Canvas.Top="88" Canvas.Left="10" />
+                                <TextBox Text="{Binding Top}" IsEnabled="False" Canvas.Left="80" Canvas.Top="88" Width="168" />
+                            </Canvas>
+                        </Expander>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+        <Canvas Name="title" Height="34" VerticalAlignment="Top" Background="Black"/>
+        <Canvas Height="30" VerticalAlignment="Top" Margin="5,0">
+            <Label Name="title2" Foreground="White" Content="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Canvas.Left="0" Height="24" Width="232" Canvas.Top="6" />
+            <Button Name="close" Canvas.Right="0" Canvas.Top="0" Width="35" Height="30" Template="{DynamicResource ButtonTemplate}"/>
+            <Button Name="minimize" Height="30" Canvas.Right="35" Canvas.Top="0" Width="35" Template="{DynamicResource ButtonTemplate}" />
+        </Canvas>
+    </Grid>
+</Window>

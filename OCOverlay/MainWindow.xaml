@@ -1,0 +1,55 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="OCOverlay.MainWindow"
+        Title="OCOverlay"  Height="350" Width="350"
+        Background="Transparent" AllowsTransparency="True" WindowStyle="None"  AllowDrop="True" Drop="Window_Drop" MouseRightButtonUp="Window_MouseRightButtonUp" ContentRendered="MainWindow_ContentRendered" SizeChanged="MainWindow_SizeChanged"
+        Icon="ICON/icon0.ico" StateChanged="Window_StateChanged" ShowActivated="True">
+    <Grid>
+        <Border x:Name="edit" Visibility="Collapsed" BorderBrush="Black" BorderThickness="5">
+            <Canvas x:Name="buttons" Visibility="Hidden" Height="34" VerticalAlignment="Top" Background="Black" />
+        </Border>
+        <Grid x:Name="pony_holder">
+            <Image x:Name="pony" Source="Images/none.png" MouseLeftButtonDown="Pony_MouseLeftButtonDown" RenderOptions.BitmapScalingMode="HighQuality" RenderTransformOrigin="0.5,0.5" MouseEnter="Pony_MouseEnter" MouseLeave="Pony_MouseLeave">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="flipper"  ScaleX="1" ScaleY="1" />
+                        <RotateTransform x:Name="rotator" Angle="0" />
+                        <ScaleTransform x:Name="scaler" ScaleX="1" ScaleY="1" />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <MediaElement LoadedBehavior="Manual" Visibility="Hidden" x:Name="gilda" MediaEnded="gilda_MediaEnded" MouseLeftButtonDown="Pony_MouseLeftButtonDown" RenderOptions.BitmapScalingMode="HighQuality" RenderTransformOrigin="0.5,0.5" MouseEnter="Pony_MouseEnter" MouseLeave="Pony_MouseLeave" Loaded="gilda_Loaded">
+                <MediaElement.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="flipper_2"  ScaleX="1" ScaleY="1" />
+                        <RotateTransform x:Name="rotator_2" Angle="0" />
+                        <ScaleTransform x:Name="scaler_2" ScaleX="1" ScaleY="1" />
+                    </TransformGroup>
+                </MediaElement.RenderTransform>
+            </MediaElement>
+        </Grid>
+        <Grid Opacity="0">
+            <Rectangle x:Name="rectTop" Height="10" Fill="Black" Margin="10,0,10,0" VerticalAlignment="Top"  />
+            <Rectangle x:Name="rectBottom" Height="10" Fill="Black" Margin="10,0,10,0" VerticalAlignment="Bottom"  />
+            <Rectangle x:Name="rectLeft" Width="10" Fill="Black" Margin="0,10,0,10" HorizontalAlignment="Left"  />
+            <Rectangle x:Name="rectRight" Width="10" Fill="Black" Margin="0,10,0,10" HorizontalAlignment="Right"  />
+            <Rectangle x:Name="rectTopLeft" Height="10" Width="10" Fill="Black" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Rectangle x:Name="rectTopRight" Height="10" Width="10" Fill="Black" VerticalAlignment="Top" HorizontalAlignment="Right" />
+            <Rectangle x:Name="rectBottomLeft" Height="10" Width="10" Fill="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+            <Rectangle x:Name="rectBottomRight" Height="10" Width="10" Fill="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+        </Grid>
+        <Canvas x:Name="title" Visibility="Hidden" WindowChrome.IsHitTestVisibleInChrome="true" Height="30" VerticalAlignment="Top" Margin="5,0">
+            <Button x:Name="close" Height="30" Canvas.Right="0" Canvas.Top="0" Width="35" Template="{DynamicResource ButtonTemplate}" Tag="close"/>
+            <Button x:Name="restore" Height="30" Canvas.Right="35" Canvas.Top="0" Width="35" Template="{DynamicResource ButtonTemplate}" />
+            <Button x:Name="minimize" Height="30" Canvas.Right="70" Canvas.Top="0" Width="35" Template="{DynamicResource ButtonTemplate}" />
+            <Button x:Name="editBlinks" Height="30" Canvas.Left="0" Canvas.Top="0" Width="35" Click="edit_Click" MouseEnter="buttonGotFocus" MouseLeave="buttonLostFocus" Template="{DynamicResource ButtonTemplate}" />
+            <Button x:Name="locked" Height="30" Canvas.Left="70" Canvas.Top="0" Width="35" Click="locked_Click" MouseEnter="buttonGotFocus" MouseLeave="buttonLostFocus" Template="{DynamicResource ButtonTemplate}" />
+            <Button x:Name="pin" Height="30" Canvas.Left="35" Canvas.Top="0" Width="35" Click="pin_Click" MouseEnter="buttonGotFocus" MouseLeave="buttonLostFocus" Template="{DynamicResource ButtonTemplate}" />
+        </Canvas>
+        <Canvas x:Name="playback" Visibility="Hidden" WindowChrome.IsHitTestVisibleInChrome="true" Height="30" VerticalAlignment="Bottom" Margin="5,0">
+            <Button x:Name="play" Height="30" Canvas.Left="0" Canvas.Bottom="0" Width="35" Click="play_Click" MouseEnter="buttonGotFocus" MouseLeave="buttonLostFocus" Template="{DynamicResource ButtonTemplate}" />
+            <Button x:Name="loop" Height="30" Canvas.Left="35" Canvas.Bottom="0" Width="35" Click="loop_Click"  MouseEnter="buttonGotFocus" MouseLeave="buttonLostFocus" Template="{DynamicResource ButtonTemplate}" />
+        </Canvas>
+    </Grid>
+</Window>
