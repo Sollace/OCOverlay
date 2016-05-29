@@ -205,6 +205,12 @@ namespace OCOverlay {
                             if (Resizer.ResizeDirection == ResizeDirection.TopLeft || Resizer.ResizeDirection == ResizeDirection.TopRight) {
                                 int oldY = pos.y + pos.cy;
                                 pos.cy = (int)(pos.cx / Aspect);
+                                if (pos.cy >= bounds.Height) {
+                                    pos.cy = bounds.Height;
+                                }
+                                if (oldY >= area.Height) {
+                                    oldY = area.Height;
+                                }
                                 pos.y = oldY - pos.cy;
                             } else if (Resizer.isVertical) {
                                 pos.cx = (int)(pos.cy * Aspect);
