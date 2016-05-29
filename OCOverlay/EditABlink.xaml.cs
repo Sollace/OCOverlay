@@ -95,11 +95,11 @@ namespace OCOverlay {
         }
 
         private void BlinkWindow_Activated(object sender, EventArgs e) {
-            BlinkManager.Pause();
+            MainWindow.BlinkManager.Pause();
         }
 
         private void BlinkWindow_Closed(object sender, EventArgs e) {
-            BlinkManager.Continue();
+            MainWindow.BlinkManager.Continue();
         }
 
         private void export_Click(object sender, RoutedEventArgs e) {

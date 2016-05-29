@@ -16,7 +16,7 @@ namespace OCOverlay {
     public partial class EditBlinks : Window {
         public EditBlinks() {
             InitializeComponent();
-            BlinksListing.ItemsSource = BlinkManager.Frames;
+            BlinksListing.ItemsSource = MainWindow.BlinkManager.Frames;
         }
 
         protected override void OnContentRendered(EventArgs e) {
@@ -35,7 +35,7 @@ namespace OCOverlay {
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e) {
-            BlinkManager.Frames.Remove((BlinkFrame)((Button)sender).DataContext);
+            MainWindow.BlinkManager.Frames.Remove((BlinkFrame)((Button)sender).DataContext);
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e) {
@@ -46,14 +46,14 @@ namespace OCOverlay {
 
         private void Add_Click(object sender, RoutedEventArgs e) {
             BlinkFrame newFrame = new BlinkFrame(4, 12, 1);
-            BlinkManager.Frames.Add(newFrame);
+            MainWindow.BlinkManager.Frames.Add(newFrame);
             EditABlink win = new EditABlink(newFrame);
             win.Owner = this;
             win.Show();
         }
 
         private void Save(object sender, RoutedEventArgs e) {
-            Utils.SaveBlinkItems(this, BlinkManager.Frames.ToArray());
+            Utils.SaveBlinkItems(this, MainWindow.BlinkManager.Frames.ToArray());
         }
     }
 }

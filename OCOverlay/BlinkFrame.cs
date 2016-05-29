@@ -24,7 +24,7 @@ namespace OCOverlay {
         public void RemoveImageAt(int index) {
             if (index >= 0 && index < imageKeys.Count) {
                 int key = imageKeys[index];
-                if (BlinkManager.countImage(key) <= 1) {
+                if (MainWindow.BlinkManager.countImage(key) <= 1) {
                     ImageRegistry.unRegisterImage(key);
                 }
                 imageKeys.RemoveAt(index);

@@ -177,9 +177,10 @@ namespace OCOverlay {
             return extendedStyle;
         }
 
-        public static void SetWindowOpaque(this Window x, int extendedStyle) {
+        public static void SetWindowOpaque(this Window x) {
             IntPtr hwnd = new WindowInteropHelper(x).Handle;
-            SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle);
+            int extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+            SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle & ~WS_EX_TRANSPARENT);
         }
 
         public static System.Windows.Forms.Screen GetScreen(this Window window) {

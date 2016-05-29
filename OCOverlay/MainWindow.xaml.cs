@@ -16,6 +16,8 @@ using System.Windows.Media.Animation;
 namespace OCOverlay {
     public partial class MainWindow : Window, WindowUtils.ExtendedWindow, ILockable {
         public static GifSource Animator;
+        public static BlinkManager BlinkManager;
+
         private WindowResizer Resizer;
 
         private int snap = 5;
@@ -149,6 +151,21 @@ namespace OCOverlay {
             }
         }
 
+        private bool _passthrough = false;
+        public bool PassThrough {
+            get { return _passthrough; }
+            set {
+                if (_passthrough != value) {
+                    if (value) {
+                        this.SetWindowTransparent();
+                    } else {
+                        this.SetWindowOpaque();
+                    }
+                    _passthrough = value;
+                }
+            }
+        }
+
         private Visibility UIVisibility {
             set {
                 title.Visibility = buttons.Visibility = edit.Visibility = value;
@@ -163,7 +180,7 @@ namespace OCOverlay {
 
         public MainWindow(string startupImage, bool autoAnimate) : this(startupImage) {
             if (autoAnimate) {
-                BlinkManager.Start(pony);
+                BlinkManager.Start();
             }
         }
 
@@ -178,6 +195,7 @@ namespace OCOverlay {
             Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 10 });
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
             Animator = new GifSource(this, pony);
+            BlinkManager = new BlinkManager(pony);
             Resizer = new WindowResizer(this);
         }
 
@@ -438,13 +456,9 @@ namespace OCOverlay {
 
         private void Window_StateChanged(object sender, EventArgs e) {
             if (WindowState == WindowState.Minimized) {
-                if (BlinkManager.IsEnabled) {
-                    BlinkManager.Stop();
-                }
+                BlinkManager.Stop();
             } else {
-                if (!BlinkManager.IsEnabled) {
-                    BlinkManager.Continue();
-                }
+                BlinkManager.Continue();
             }
             
             if (!ShowInTaskbar) {
@@ -465,6 +479,7 @@ namespace OCOverlay {
         internal void loadFile(string path) {
             path = Environment.ExpandEnvironmentVariables(path);
             Animator.Stop();
+            BlinkManager.Stop();
             Cursor = Cursors.Wait;
             string extra = "";
             if (File.Exists(path)) {
@@ -509,7 +524,7 @@ namespace OCOverlay {
                         foreach (BlinkFrame i in f) {
                             BlinkManager.Frames.Add(i);
                         }
-                        BlinkManager.Start(pony);
+                        BlinkManager.Start();
                         Icon = pony.Source = f[0].NextFrame;
                         updateSize();
                         Title = Path.GetFileNameWithoutExtension(path);
@@ -519,7 +534,7 @@ namespace OCOverlay {
                 }
             } else if (Directory.Exists(path)) {
                 cleanup();
-                ImageSource image = Utils.IconFromExeDir(path, extra, true);  //IconUtils.getIcon(path, true, true, true);
+                ImageSource image = Utils.IconFromExeDir(path, extra, true);
                 Title = Path.GetFileNameWithoutExtension(path);
                 Icon = image;
                 pony.Source = image;

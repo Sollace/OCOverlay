@@ -5,18 +5,25 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace OCOverlay {
-    public static class BlinkManager {
-        private static DispatcherTimer timer = new DispatcherTimer();
+    public class BlinkManager {
+        private readonly DispatcherTimer timer = new DispatcherTimer();
 
-        internal static readonly ObservableCollection<BlinkFrame> Frames = new ObservableCollection<BlinkFrame>();
-        private static BlinkFrame selectedFrame;
+        internal readonly ObservableCollection<BlinkFrame> Frames = new ObservableCollection<BlinkFrame>();
+        private BlinkFrame selectedFrame;
 
-        public static bool IsEnabled { get; private set; }
-        public static Image Screen { get; private set; }
-        private static bool init = false;
+        public bool IsEnabled {
+            get {
+                return timer != null && timer.IsEnabled;
+            }
+        }
+        public Image Screen { get; private set; }
+        private bool init = false;
 
-        private static void Init(Image screen) {
+        public BlinkManager(Image screen) {
             Screen = screen;
+        }
+
+        private void Init() {
             if (!init) {
                 init = true;
                 timer.Tick += timer_Tick;
@@ -24,8 +31,8 @@ namespace OCOverlay {
             }
         }
 
-        private static void timer_Tick(object sender, EventArgs e) {
-            if (Screen != null && selectedFrame != null) {
+        private void timer_Tick(object sender, EventArgs e) {
+            if (selectedFrame != null) {
                 MainWindow.Animator.Stop();
                 if (selectedFrame.RunBlink(Screen, timer)) {
                     if (Frames.Count > 0) {
@@ -35,10 +42,12 @@ namespace OCOverlay {
                         Stop();
                     }
                 }
+            } else {
+                Stop();
             }
         }
 
-        private static void Frames_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+        private void Frames_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             if (Frames.Count == 0) {
                 Pause();
             } else {
@@ -56,7 +65,7 @@ namespace OCOverlay {
             }
         }
 
-        public static int countImage(int img) {
+        public int countImage(int img) {
             int result = 0;
             foreach (BlinkFrame i in Frames) {
                 foreach (int g in i.ImageKeys) {
@@ -66,35 +75,32 @@ namespace OCOverlay {
             return result;
         }
 
-        public static void Start(Image screen) {
-            Init(screen);
+        public void Start() {
+            Init();
             if (Frames.Count > 0) {
                 selectedFrame = Frames.pickOne();
                 timer.Interval = selectedFrame.Delay;
                 timer.Start();
-                IsEnabled = true;
-            } else {
-                IsEnabled = false;
             }
         }
 
-        public static void Pause() {
-            timer.Stop();
+        public void Pause() {
+            if (IsEnabled) timer.Stop();
         }
 
-        public static void Continue() {
-            if (!init) {
-                Start((Image)App.Current.MainWindow.FindName("pony"));
+        public void Continue() {
+            if (selectedFrame != null && Frames.Count > 0) {
+                if (!IsEnabled) timer.Start();
             } else {
-                timer.Start();
+                Pause();
             }
         }
 
-        public static void Stop() {
-            timer.Stop();
-            IsEnabled = false;
-            selectedFrame = null;
-            Init(null);
+        public void Stop() {
+            if (IsEnabled) {
+                Pause();
+                selectedFrame = null;
+            }
         }
     }
 }
